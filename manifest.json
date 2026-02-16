@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "ChessCom Meme Sounds",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Replace chess.com sounds with custom audio for captures, checks, and checkmates",
   "permissions": ["storage"],
   "host_permissions": [

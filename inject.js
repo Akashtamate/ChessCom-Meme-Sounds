@@ -5,13 +5,13 @@
     'use strict';
     
     try {
-        // Get sound URLs and enabled state from config element
+        
         const configElement = document.getElementById('chess-sounds-config');
         const CAPTURE_SOUND = configElement?.dataset.capture || 'https://www.myinstants.com/media/sounds/fart-with-reverb.mp3';
         const CHECK_SOUND = configElement?.dataset.check || 'https://quicksounds.com/uploads/tracks/1516062671_1563213891_1648330556.mp3';
         const CHECKMATE_SOUND = configElement?.dataset.checkmate || 'https://www.myinstants.com/media/sounds/movie_1.mp3';
         
-        // Get initial enabled state (default to true)
+        
         let soundsEnabled = configElement?.dataset.enabled !== 'false';
         
         const captureAudio = new Audio(CAPTURE_SOUND);
@@ -27,13 +27,32 @@
         let isNavigating = false;
         let lastSoundTime = 0;
 
-        // Listen for toggle messages from content script
+        
         window.addEventListener('message', function(event) {
             if (event.data.type === 'CHESS_SOUNDS_TOGGLE') {
                 soundsEnabled = event.data.enabled;
                 console.log('Chess Custom Sounds:', soundsEnabled ? 'Enabled' : 'Disabled');
             }
         });
+
+        function isGameOver() {
+            const gameOverModal = document.querySelector('.game-over-modal-container');
+            if (gameOverModal && gameOverModal.offsetParent !== null) {
+                return true;
+            }
+            
+            const subtitleElement = document.querySelector('[data-cy="header-subtitle-first-line"]');
+            if (subtitleElement && subtitleElement.textContent.includes('checkmate')) {
+                return true;
+            }
+            
+            const boardModal = document.querySelector('.board-modal-component.game-over-modal-container');
+            if (boardModal && boardModal.offsetParent !== null) {
+                return true;
+            }
+            
+            return false;
+        }
 
         function playHighestPrioritySound() {
             if (soundBatch.length === 0) return;
@@ -75,6 +94,28 @@
                 batchTimer = null;
             }, 150);
         }
+        
+        function addCheckToBatch() {
+            
+            setTimeout(() => {
+                const gameEnded = isGameOver();
+                
+                if (gameEnded) {
+                    soundBatch.push('checkmate');
+                } else {
+                    soundBatch.push('check');
+                }
+                
+                if (batchTimer) {
+                    clearTimeout(batchTimer);
+                }
+                
+                batchTimer = setTimeout(() => {
+                    playHighestPrioritySound();
+                    batchTimer = null;
+                }, 50);
+            }, 250); 
+        }
 
         const OriginalAudioContext = window.AudioContext || window.webkitAudioContext;
 
@@ -107,20 +148,17 @@
                         return originalStart(when, offset, duration);
                     }
 
-                    // CRITICAL: Check if custom sounds are enabled
-                    // If disabled, play original chess.com sounds
                     if (!soundsEnabled) {
                         return originalStart(when, offset, duration);
                     }
 
-                    // Only intercept and replace if custom sounds are enabled
                     if (duration >= 0.280 && duration <= 0.290) {
                         addToBatch('checkmate');
                         return;
                     }
 
                     if (duration >= 0.325 && duration <= 0.340) {
-                        addToBatch('check');
+                        addCheckToBatch();
                         return;
                     }
 

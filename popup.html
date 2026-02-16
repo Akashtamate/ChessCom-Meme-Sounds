@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess Custom Sounds</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            width: 340px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #18181b;
+            color: #ffffff;
+            padding: 24px;
+        }
+        
+        .header {
+            margin-bottom: 28px;
+        }
+        
+        h1 {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+        
+        .version {
+            font-size: 11px;
+            font-weight: 600;
+            color: #666666;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .toggle-section {
+            background: #27272a;
+            border: 1px solid #3f3f46;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .toggle-label {
+            font-size: 15px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            width: 48px;
+            height: 26px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #2a2a2a;
+            transition: 0.3s;
+            border-radius: 26px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 4px;
+            background-color: #666666;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: #10b981;
+        }
+        
+        input:checked + .slider:before {
+            background-color: #ffffff;
+            transform: translateX(22px);
+        }
+        
+        .status-text {
+            margin-top: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #666666;
+            transition: color 0.3s;
+        }
+        
+        .status-text.active {
+            color: #10b981;
+        }
+        
+        .sounds-section {
+            background: #27272a;
+            border: 1px solid #3f3f46;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #666666;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 16px;
+        }
+        
+        .sound-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid #3f3f46;
+        }
+        
+        .sound-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        
+        .sound-item:first-child {
+            padding-top: 0;
+        }
+        
+        .sound-dot {
+            font-size: 18px;
+            line-height: 1;
+        }
+        
+        .sound-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #ffffff;
+            flex: 1;
+        }
+        
+        .sound-type {
+            font-size: 12px;
+            font-weight: 600;
+            color: #71717a;
+        }
+        
+        .footer {
+            text-align: center;
+            padding-top: 8px;
+        }
+        
+        .footer-text {
+            font-size: 11px;
+            font-weight: 600;
+            color: #333333;
+            letter-spacing: 0.02em;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>ChessCom Meme Sounds</h1>
+    </div>
+    
+    <div class="toggle-section">
+        <div class="toggle-row">
+            <div class="toggle-label">Custom Sounds</div>
+            <label class="toggle-switch">
+                <input type="checkbox" id="soundToggle" checked>
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="status-text active" id="statusText">Enabled</div>
+    </div>
+    
+    <div class="sounds-section">
+        <div class="section-title">Active Effects</div>
+        <div class="sound-item">
+            <div class="sound-dot">💨</div>
+            <div class="sound-name">Captures</div>
+            <div class="sound-type">Fart meme</div>
+        </div>
+        <div class="sound-item">
+            <div class="sound-dot">♟️</div>
+            <div class="sound-name">Checks</div>
+            <div class="sound-type">FAHH meme</div>
+        </div>
+        <div class="sound-item">
+            <div class="sound-dot">👑</div>
+            <div class="sound-name">Checkmate</div>
+            <div class="sound-type">BRUHH meme</div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <div class="footer-text">v1.0.0</div>
+    </div>
+    
+    <script src="popup.js"></script>
+</body>
+</html>
